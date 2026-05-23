@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda | Ángel & Katia</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#fcfbf8',
+                            gold: '#c5a059',
+                            goldlight: '#e8d5a5',
+                            dark: '#2c3e38', // Sage/Forest Green
+                            text: '#4a4a4a'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                        script: ['"Great Vibes"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body { background-color: #fcfbf8; color: #4a4a4a; overflow-x: hidden; }
+        
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Hide scrollbar for horizontal galleries but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background-color: #c5a059;
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line::before { left: 24px; transform: none; }
+            .timeline-item { flex-direction: column !important; align-items: flex-start !important; padding-left: 60px; position: relative;}
+            .timeline-dot { position: absolute; left: 16px; top: 0; transform: none; }
+            .timeline-time { width: auto; margin-bottom: 4px; text-align: left !important; }
+            .timeline-content { width: 100%; text-align: left !important; }
+        }
+
+        .overlay-bg { background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%); }
+    </style>
+</head>
+<body class="font-sans antialiased text-brand-text">
+
+    <!-- Audio Element (Hidden) -->
+    <!-- Using a royalty-free romantic piano placeholder. Can be swapped for any MP3 -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_517cfc3f87.mp3?filename=romantic-piano-122175.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Welcome / Play Music Overlay -->
+    <div id="welcomeOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-brand-light transition-opacity duration-700">
+        <h1 class="font-script text-6xl text-brand-gold mb-6">Ángel & Katia</h1>
+        <p class="font-serif text-lg tracking-widest text-brand-dark mb-10">NUESTRA BODA</p>
+        <button id="enterBtn" class="px-8 py-3 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-white transition-colors duration-300 rounded-full flex items-center gap-3 font-sans tracking-wide">
+            <i data-lucide="mail-open"></i> Abrir Invitación
+        </button>
+    </div>
+
+    <!-- Floating Audio Control -->
+    <button id="musicToggle" class="fixed bottom-6 right-6 z-40 bg-white p-3 rounded-full shadow-lg text-brand-gold border border-brand-gold/30 hidden">
+        <i id="musicIcon" data-lucide="volume-2"></i>
+    </button>
+
+    <!-- 1. Hero Section -->
+    <section class="relative h-screen flex flex-col items-center justify-center text-white overflow-hidden">
+        <!-- Background Image (Hands holding) -->
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Manos de los novios" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 overlay-bg"></div>
+        
+        <div class="relative z-10 text-center px-4 flex flex-col items-center">
+            <p class="font-sans tracking-[0.3em] uppercase text-sm mb-6 text-brand-goldlight">Nos casamos</p>
+            <h1 class="font-script text-7xl md:text-9xl mb-4 drop-shadow-lg">Ángel <span class="text-brand-goldlight">&</span> Katia</h1>
+            <p class="font-serif italic text-xl md:text-2xl mt-4">22 . 08 . 2026</p>
+            
+            <div class="absolute bottom-10 animate-bounce">
+                <i data-lucide="chevron-down" class="w-8 h-8 text-white/80"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Introducción y Padres -->
+    <section class="py-24 px-6 max-w-4xl mx-auto text-center">
+        <div class="fade-in">
+            <i data-lucide="quote" class="w-10 h-10 mx-auto text-brand-gold/50 mb-6"></i>
+            <p class="font-serif text-xl md:text-2xl leading-relaxed text-brand-dark mb-12 italic">
+                "Dios nos ha concedido el privilegio de conocernos y amarnos. Con su bendición y la de nuestros padres, queremos unir nuestras vidas para siempre."
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mt-16 fade-in">
+            <!-- Padres de la novia -->
+            <div>
+                <p class="font-sans text-xs uppercase tracking-widest text-brand-gold mb-3">Con la bendición de los padres de la novia</p>
+                <p class="font-serif text-lg text-brand-dark">Roberto Sánchez Gómez</p>
+                <p class="font-serif text-lg text-brand-dark">María Gómez de Sánchez</p>
+            </div>
+            <!-- Padres del novio -->
+            <div>
+                <p class="font-sans text-xs uppercase tracking-widest text-brand-gold mb-3">Con la bendición de los padres del novio</p>
+                <p class="font-serif text-lg text-brand-dark">Alejandro Martínez Ruiz</p>
+                <p class="font-serif text-lg text-brand-dark">Laura Pérez de Martínez</p>
+            </div>
+        </div>
+
+        <div class="mt-20 fade-in">
+            <p class="font-serif text-2xl text-brand-gold">Te invitamos a ser parte de este capítulo en nuestra historia</p>
+        </div>
+    </section>
+
+    <!-- 3. Cuenta Regresiva & Calendario -->
+    <section class="py-20 bg-brand-dark text-white relative">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            
+            <h2 class="font-script text-5xl mb-12 text-brand-goldlight fade-in">Faltan...</h2>
+            
+            <!-- Countdown -->
+            <div id="countdown" class="grid grid-cols-4 gap-4 md:gap-8 max-w-2xl mx-auto mb-20 fade-in">
+                <div class="flex flex-col">
+                    <span id="days" class="text-4xl md:text-6xl font-serif">00</span>
+                    <span class="text-xs uppercase tracking-widest mt-2 text-brand-goldlight">Días</span>
+                </div>
+                <div class="flex flex-col">
+                    <span id="hours" class="text-4xl md:text-6xl font-serif">00</span>
+                    <span class="text-xs uppercase tracking-widest mt-2 text-brand-goldlight">Horas</span>
+                </div>
+                <div class="flex flex-col">
+                    <span id="minutes" class="text-4xl md:text-6xl font-serif">00</span>
+                    <span class="text-xs uppercase tracking-widest mt-2 text-brand-goldlight">Min</span>
+                </div>
+                <div class="flex flex-col">
+                    <span id="seconds" class="text-4xl md:text-6xl font-serif">00</span>
+                    <span class="text-xs uppercase tracking-widest mt-2 text-brand-goldlight">Seg</span>
+                </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="max-w-sm mx-auto bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-brand-gold/20 fade-in">
+                <h3 class="font-serif text-2xl uppercase tracking-widest mb-6">Agosto 2026</h3>
+                <div class="grid grid-cols-7 gap-2 text-center text-sm mb-2 font-sans text-brand-goldlight">
+                    <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+                </div>
+                <div class="grid grid-cols-7 gap-2 text-center text-sm font-sans">
+                    <!-- Blank days before August 1st 2026 (Aug 1 is a Saturday) -->
+                    <div></div><div></div><div></div><div></div><div></div><div></div>
+                    <div class="py-2">1</div>
+                    <div class="py-2">2</div><div class="py-2">3</div><div class="py-2">4</div><div class="py-2">5</div><div class="py-2">6</div><div class="py-2">7</div><div class="py-2">8</div>
+                    <div class="py-2">9</div><div class="py-2">10</div><div class="py-2">11</div><div class="py-2">12</div><div class="py-2">13</div><div class="py-2">14</div><div class="py-2">15</div>
+                    <div class="py-2">16</div><div class="py-2">17</div><div class="py-2">18</div><div class="py-2">19</div><div class="py-2">20</div><div class="py-2">21</div>
+                    <!-- The 22nd Highlighted -->
+                    <div class="relative py-2 text-white font-bold flex justify-center items-center">
+                        <i data-lucide="heart" class="absolute text-brand-gold fill-brand-gold w-8 h-8 -z-10"></i>
+                        22
+                    </div>
+                    <div class="py-2">23</div><div class="py-2">24</div><div class="py-2">25</div><div class="py-2">26</div><div class="py-2">27</div><div class="py-2">28</div><div class="py-2">29</div>
+                    <div class="py-2">30</div><div class="py-2">31</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4. Galería Horizontal 1 -->
+    <section class="py-16">
+        <div class="text-center mb-8 fade-in">
+            <h2 class="font-serif text-3xl text-brand-dark">Nuestros Momentos</h2>
+            <p class="font-sans text-sm text-gray-500 mt-2 flex items-center justify-center gap-2">
+                <i data-lucide="move-horizontal" class="w-4 h-4"></i> Desliza para ver más
+            </p>
+        </div>
+        
+        <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 px-6 pb-8">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 1" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[500px] object-cover rounded-xl shadow-lg">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 2" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[500px] object-cover rounded-xl shadow-lg">
+            <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 3" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[500px] object-cover rounded-xl shadow-lg">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 4" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[500px] object-cover rounded-xl shadow-lg">
+        </div>
+    </section>
+
+    <!-- 5. Ubicaciones (Ceremonia y Recepción) -->
+    <section class="py-20 bg-brand-light">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-script text-6xl text-brand-gold mb-4">Dónde y Cuándo</h2>
+                <div class="w-16 h-px bg-brand-gold mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Ceremonia Religiosa -->
+                <div class="bg-white p-10 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] text-center border border-gray-100 fade-in">
+                    <div class="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-6 text-brand-gold">
+                        <i data-lucide="church" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-brand-dark mb-2">Ceremonia Religiosa</h3>
+                    <p class="font-sans font-semibold text-brand-gold mb-4">1:00 PM</p>
+                    <p class="font-sans text-sm leading-relaxed mb-6 h-16">
+                        Parroquia de Santa Cruz Azcapotzaltongo<br>
+                        <span class="text-gray-500">Toluca de Lerdo, Méx.</span>
+                    </p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Parroquia+de+Santa+Cruz+Azcapotzaltongo" target="_blank" class="inline-flex items-center gap-2 bg-brand-dark text-white px-6 py-3 rounded-full hover:bg-brand-gold transition-colors font-sans text-sm uppercase tracking-wider">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> Ver Mapa
+                    </a>
+                </div>
+
+                <!-- Recepción -->
+                <div class="bg-white p-10 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] text-center border border-gray-100 fade-in">
+                    <div class="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-6 text-brand-gold">
+                        <i data-lucide="glass-water" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-brand-dark mb-2">Recepción</h3>
+                    <p class="font-sans font-semibold text-brand-gold mb-4">3:30 PM</p>
+                    <p class="font-sans text-sm leading-relaxed mb-6 h-16">
+                        El Mezquite Eventos<br>
+                        <span class="text-gray-500">Toluca, Méx.</span>
+                    </p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=El+Mezquite+Eventos+Toluca" target="_blank" class="inline-flex items-center gap-2 bg-brand-dark text-white px-6 py-3 rounded-full hover:bg-brand-gold transition-colors font-sans text-sm uppercase tracking-wider">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> Ver Mapa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Itinerario -->
+    <section class="py-24 max-w-3xl mx-auto px-6">
+        <div class="text-center mb-16 fade-in">
+            <h2 class="font-script text-6xl text-brand-gold mb-2">Itinerario</h2>
+            <p class="font-sans text-sm uppercase tracking-widest text-gray-500">El plan para nuestro gran día</p>
+        </div>
+
+        <div class="relative timeline-line fade-in">
+            <!-- Event 1 -->
+            <div class="timeline-item flex items-center justify-between mb-12 w-full">
+                <div class="timeline-time w-5/12 text-right pr-8 font-serif text-xl text-brand-gold font-bold">1:00 PM</div>
+                <div class="timeline-dot w-4 h-4 bg-white border-4 border-brand-gold rounded-full z-10 absolute left-1/2 transform -translate-x-1/2"></div>
+                <div class="timeline-content w-5/12 pl-8">
+                    <h4 class="font-serif text-xl text-brand-dark">La Misa</h4>
+                    <p class="font-sans text-sm text-gray-500">Momento de recibir la bendición.</p>
+                </div>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="timeline-item flex items-center justify-between mb-12 w-full flex-row-reverse">
+                <div class="timeline-time w-5/12 text-left pl-8 font-serif text-xl text-brand-gold font-bold">3:30 PM</div>
+                <div class="timeline-dot w-4 h-4 bg-white border-4 border-brand-gold rounded-full z-10 absolute left-1/2 transform -translate-x-1/2"></div>
+                <div class="timeline-content w-5/12 pr-8 text-right">
+                    <h4 class="font-serif text-xl text-brand-dark">Recepción</h4>
+                    <p class="font-sans text-sm text-gray-500">Llegada al lugar del evento.</p>
+                </div>
+            </div>
+
+            <!-- Event 3 -->
+            <div class="timeline-item flex items-center justify-between mb-12 w-full">
+                <div class="timeline-time w-5/12 text-right pr-8 font-serif text-xl text-brand-gold font-bold">4:00 PM</div>
+                <div class="timeline-dot w-4 h-4 bg-white border-4 border-brand-gold rounded-full z-10 absolute left-1/2 transform -translate-x-1/2"></div>
+                <div class="timeline-content w-5/12 pl-8">
+                    <h4 class="font-serif text-xl text-brand-dark">Ceremonia Civil</h4>
+                    <p class="font-sans text-sm text-gray-500">Firma oficial de nuestro compromiso.</p>
+                </div>
+            </div>
+
+            <!-- Event 4 -->
+            <div class="timeline-item flex items-center justify-between mb-12 w-full flex-row-reverse">
+                <div class="timeline-time w-5/12 text-left pl-8 font-serif text-xl text-brand-gold font-bold">4:30 PM</div>
+                <div class="timeline-dot w-4 h-4 bg-white border-4 border-brand-gold rounded-full z-10 absolute left-1/2 transform -translate-x-1/2"></div>
+                <div class="timeline-content w-5/12 pr-8 text-right">
+                    <h4 class="font-serif text-xl text-brand-dark">Cóctel de Bienvenida</h4>
+                    <p class="font-sans text-sm text-gray-500">Bebidas, música y buenas charlas.</p>
+                </div>
+            </div>
+
+            <!-- Event 5 -->
+            <div class="timeline-item flex items-center justify-between mb-12 w-full">
+                <div class="timeline-time w-5/12 text-right pr-8 font-serif text-xl text-brand-gold font-bold">5:00 PM</div>
+                <div class="timeline-dot w-4 h-4 bg-white border-4 border-brand-gold rounded-full z-10 absolute left-1/2 transform -translate-x-1/2"></div>
+                <div class="timeline-content w-5/12 pl-8">
+                    <h4 class="font-serif text-xl text-brand-dark">Comida</h4>
+                    <p class="font-sans text-sm text-gray-500">A disfrutar del banquete preparado.</p>
+                </div>
+            </div>
+
+            <!-- Event 6 -->
+            <div class="timeline-item flex items-center justify-between w-full flex-row-reverse">
+                <div class="timeline-time w-5/12 text-left pl-8 font-serif text-xl text-brand-gold font-bold">6:00 PM</div>
+                <div class="timeline-dot w-4 h-4 bg-white border-4 border-brand-gold rounded-full z-10 absolute left-1/2 transform -translate-x-1/2"></div>
+                <div class="timeline-content w-5/12 pr-8 text-right">
+                    <h4 class="font-serif text-xl text-brand-dark">¡A la Fiesta!</h4>
+                    <p class="font-sans text-sm text-gray-500">Música, baile y celebración.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Frase y Decoración -->
+    <section class="relative py-32 flex items-center justify-center text-white overflow-hidden text-center px-6">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Decoración Boda" class="absolute inset-0 w-full h-full object-cover fixed-bg">
+        <div class="absolute inset-0 bg-black/50"></div>
+        
+        <div class="relative z-10 max-w-3xl fade-in">
+            <i data-lucide="camera" class="w-8 h-8 mx-auto mb-6 opacity-70"></i>
+            <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-6 italic">"El amor no consiste en mirarse el uno al otro, sino en mirar juntos en la misma dirección."</h2>
+            <p class="font-script text-3xl text-brand-goldlight">Ángel & Katia</p>
+        </div>
+    </section>
+
+    <!-- 8. Detalles (Dress Code, Adultos, Regalos) -->
+    <section class="py-24 bg-brand-light px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+            
+            <!-- Dress Code -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm text-center border border-brand-gold/20 fade-in">
+                <i data-lucide="shirt" class="w-10 h-10 mx-auto text-brand-dark mb-4"></i>
+                <h3 class="font-serif text-xl uppercase tracking-widest text-brand-dark mb-4">Código de Vestimenta</h3>
+                <p class="font-sans font-bold text-brand-gold mb-2">Formal / Etiqueta</p>
+                <p class="font-sans text-sm text-gray-600">
+                    Sugerimos traje oscuro para los caballeros y vestido largo para las damas.<br><br>
+                    <em>Se reserva el color blanco y beige para la novia.</em>
+                </p>
+            </div>
+
+            <!-- Sólo Adultos -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm text-center border border-brand-gold/20 fade-in" style="transition-delay: 200ms;">
+                <i data-lucide="users" class="w-10 h-10 mx-auto text-brand-dark mb-4"></i>
+                <h3 class="font-serif text-xl uppercase tracking-widest text-brand-dark mb-4">Recepción</h3>
+                <p class="font-sans font-bold text-brand-gold mb-2">Fiesta para Adultos</p>
+                <p class="font-sans text-sm text-gray-600">
+                    Amamos a sus pequeños, pero para que todos podamos relajarnos y disfrutar al máximo de la noche, hemos decidido que nuestra boda sea un evento exclusivo para adultos. ¡Gracias por comprender!
+                </p>
+            </div>
+
+            <!-- Lluvia de Sobres -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm text-center border border-brand-gold/20 fade-in" style="transition-delay: 400ms;">
+                <i data-lucide="mail" class="w-10 h-10 mx-auto text-brand-dark mb-4"></i>
+                <h3 class="font-serif text-xl uppercase tracking-widest text-brand-dark mb-4">Obsequios</h3>
+                <p class="font-sans font-bold text-brand-gold mb-2">Lluvia de Sobres</p>
+                <p class="font-sans text-sm text-gray-600">
+                    El mejor regalo es tu presencia. Sin embargo, si deseas tener un detalle con nosotros, habrá un buzón en la recepción donde podrás depositar tu sobre.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 9. Galería Horizontal 2 -->
+    <section class="py-16 bg-white border-t border-gray-100">
+        <div class="text-center mb-8 fade-in">
+            <h2 class="font-serif text-3xl text-brand-dark">Nuestra Historia en Imágenes</h2>
+        </div>
+        
+        <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 px-6 pb-8">
+            <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 5" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+            <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 6" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+            <img src="https://images.unsplash.com/photo-1543881477-f27715f2129c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 7" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 8" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+        </div>
+    </section>
+
+    <!-- 10. Mesa de Regalos y Confirmación -->
+    <section class="py-24 max-w-4xl mx-auto px-6 text-center">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Mesa de regalos -->
+            <div class="bg-brand-light p-10 rounded-3xl border border-brand-gold/30 fade-in">
+                <i data-lucide="gift" class="w-12 h-12 mx-auto text-brand-gold mb-6"></i>
+                <h3 class="font-serif text-2xl mb-4 text-brand-dark">Mesa de Regalos</h3>
+                <p class="font-sans text-sm text-gray-600 mb-8">
+                    Además de la lluvia de sobres, hemos preparado una mesa de regalos por si prefieres darnos un detalle especial para nuestro nuevo hogar.
+                </p>
+                <button onclick="alert('Redirigiendo a Liverpool/Palacio de Hierro (Ejemplo)')" class="bg-white border-2 border-brand-dark text-brand-dark px-8 py-3 rounded-full hover:bg-brand-dark hover:text-white transition-colors font-sans text-sm uppercase tracking-wider font-semibold w-full">
+                    Ver Mesa de Regalos
+                </button>
+            </div>
+
+            <!-- Confirmar Asistencia -->
+            <div class="bg-brand-dark p-10 rounded-3xl text-white fade-in text-center">
+                <i data-lucide="check-circle" class="w-12 h-12 mx-auto text-brand-goldlight mb-6"></i>
+                <h3 class="font-serif text-2xl mb-4 text-white">Confirmar Asistencia</h3>
+                <p class="font-sans text-sm text-gray-300 mb-8">
+                    Para nosotros es muy importante tu presencia. Por favor, confírmanos si podrás acompañarnos antes del 1 de agosto.
+                </p>
+                <button onclick="alert('Redirigiendo a WhatsApp o Formulario (Ejemplo)')" class="bg-brand-gold text-white border-2 border-brand-gold px-8 py-3 rounded-full hover:bg-white hover:text-brand-gold hover:border-white transition-colors font-sans text-sm uppercase tracking-wider font-semibold w-full">
+                    Confirmar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Footer Final -->
+    <footer class="relative h-[80vh] flex flex-col items-center justify-end pb-20 text-white overflow-hidden">
+        <!-- Imagen de espalda tomados de la mano -->
+        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Novios de espaldas" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        
+        <div class="relative z-10 text-center fade-in">
+            <h2 class="font-script text-8xl md:text-9xl mb-2 text-brand-goldlight drop-shadow-md">A & K</h2>
+            <p class="font-serif text-xl md:text-2xl tracking-[0.2em] uppercase mt-4">22 de Agosto 2026</p>
+            <p class="font-sans text-sm mt-8 opacity-70">¡Te esperamos!</p>
+        </div>
+    </footer>
+
+    <!-- Scripts para funcionalidad -->
+    <script>
+        // Inicializar iconos
+        lucide.createIcons();
+
+        // 1. Lógica de Audio y Pantalla de Bienvenida
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
+        const enterBtn = document.getElementById('enterBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        enterBtn.addEventListener('click', () => {
+            // Ocultar overlay
+            welcomeOverlay.style.opacity = '0';
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+            }, 700);
+
+            // Intentar reproducir audio
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicToggle.classList.remove('hidden');
+            }).catch(e => {
+                console.log("Audio bloqueado por el navegador:", e);
+                // Mostrar botón para que el usuario pueda intentar prenderlo manual
+                musicToggle.classList.remove('hidden');
+                musicIcon.setAttribute('data-lucide', 'volume-x');
+                lucide.createIcons();
+            });
+        });
+
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.setAttribute('data-lucide', 'volume-x');
+            } else {
+                bgMusic.play();
+                musicIcon.setAttribute('data-lucide', 'volume-2');
+            }
+            isPlaying = !isPlaying;
+            lucide.createIcons();
+        });
+
+        // 2. Cuenta Regresiva
+        // Fecha objetivo: 22 de Agosto de 2026 a las 13:00 hrs
+        const targetDate = new Date('August 22, 2026 13:00:00').getTime();
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "<div class='col-span-4 font-script text-5xl text-brand-goldlight'>¡Hoy es el gran día!</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+        };
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 3. Animaciones Fade-in al hacer Scroll (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((elem) => {
+            observer.observe(elem);
+        });
+    </script>
+</body>
+</html>
