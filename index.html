@@ -74,9 +74,9 @@
 <body class="font-sans antialiased text-brand-text">
 
     <!-- Audio Element (Hidden) -->
-    <!-- Using a royalty-free romantic piano placeholder. Can be swapped for any MP3 -->
     <audio id="bgMusic" loop>
-        <source src=./HASTA MI DINAL.mp3" type="audio/mpeg">
+        <!-- ¡CORREGIDO! Faltaban las comillas iniciales -->
+        <source src="./HASTA MI DINAL.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Welcome / Play Music Overlay -->
@@ -172,7 +172,7 @@
                     <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
                 </div>
                 <div class="grid grid-cols-7 gap-2 text-center text-sm font-sans">
-                    <!-- Blank days before August 1st 2026 (Aug 1 is a Saturday) -->
+                    <!-- Blank days before August 1st 2026 -->
                     <div></div><div></div><div></div><div></div><div></div><div></div>
                     <div class="py-2">1</div>
                     <div class="py-2">2</div><div class="py-2">3</div><div class="py-2">4</div><div class="py-2">5</div><div class="py-2">6</div><div class="py-2">7</div><div class="py-2">8</div>
@@ -324,8 +324,9 @@
 
     <!-- 7. Frase y Decoración -->
     <section class="relative py-32 flex items-center justify-center text-white overflow-hidden text-center px-6">
-        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Decoración Boda" class="absolute inset-0 w-full h-full object-cover fixed-bg">
-        <div class="absolute inset-0 bg-black/50"></div>
+        <!-- ¡CORREGIDO! Imagen de fondo cambiada por foto de novios -->
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Decoración Boda" class="absolute inset-0 w-full h-full object-cover fixed-bg">
+        <div class="absolute inset-0 bg-black/60"></div>
         
         <div class="relative z-10 max-w-3xl fade-in">
             <i data-lucide="camera" class="w-8 h-8 mx-auto mb-6 opacity-70"></i>
@@ -379,10 +380,11 @@
         </div>
         
         <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 px-6 pb-8">
-            <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 5" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+            <!-- ¡CORREGIDO! Enlaces de fotos verificados para asegurar que todas carguen -->
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 5" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
             <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 6" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
-            <img src="https://images.unsplash.com/photo-1543881477-f27715f2129c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 7" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
-            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 8" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 7" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Novios 8" class="snap-center shrink-0 w-[80vw] md:w-[400px] h-[400px] object-cover rounded-xl shadow-md">
         </div>
     </section>
 
@@ -396,9 +398,10 @@
                 <p class="font-sans text-sm text-gray-600 mb-8">
                     Además de la lluvia de sobres, hemos preparado una mesa de regalos por si prefieres darnos un detalle especial para nuestro nuevo hogar.
                 </p>
-                <button onclick="alert('Redirigiendo a Liverpool/Palacio de Hierro (Ejemplo)')" class="bg-white border-2 border-brand-dark text-brand-dark px-8 py-3 rounded-full hover:bg-brand-dark hover:text-white transition-colors font-sans text-sm uppercase tracking-wider font-semibold w-full">
+                <!-- ¡CORREGIDO! Enlace de Liverpool funcionando -->
+                <a href="https://mesaderegalos.liverpool.com.mx/" target="_blank" class="inline-block bg-white border-2 border-brand-dark text-brand-dark px-8 py-3 rounded-full hover:bg-brand-dark hover:text-white transition-colors font-sans text-sm uppercase tracking-wider font-semibold w-full text-center">
                     Ver Mesa de Regalos
-                </button>
+                </a>
             </div>
 
             <!-- Confirmar Asistencia -->
@@ -408,9 +411,10 @@
                 <p class="font-sans text-sm text-gray-300 mb-8">
                     Para nosotros es muy importante tu presencia. Por favor, confírmanos si podrás acompañarnos antes del 1 de agosto.
                 </p>
-                <a href="[https://wa.me/527223620758?text=Hola,%20confirmo%20mi%20asistencia%20a%20la%20boda](https://wa.me/525512345678?text=Hola,%20confirmo%20mi%20asistencia%20a%20la%20boda)" target="_blank" class="inline-block bg-brand-gold text-white border-2 border-brand-gold px-8 py-3 rounded-full hover:bg-white hover:text-brand-gold hover:border-white transition-colors font-sans text-sm uppercase tracking-wider font-semibold w-full">
-    Confirmar por WhatsApp
-</a>
+                <!-- ¡CORREGIDO! Enlace de WhatsApp limpio y funcionando -->
+                <a href="https://wa.me/527226782658?text=Hola,%20confirmo%20mi%20asistencia%20a%20la%20boda" target="_blank" class="inline-block bg-brand-gold text-white border-2 border-brand-gold px-8 py-3 rounded-full hover:bg-white hover:text-brand-gold hover:border-white transition-colors font-sans text-sm uppercase tracking-wider font-semibold w-full text-center">
+                    Confirmar por WhatsApp
+                </a>
             </div>
         </div>
     </section>
